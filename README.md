@@ -29,3 +29,75 @@ This is a full End-to-End Machine Learning Project — perfect for students, beg
 🔔 Subscribe for more AI, ML, and Python projects: @SouvikChai
 
 📢 Share this project with friends who love AI in Agriculture & Computer Vision! 🌾
+
+## ⚡ Quickstart
+
+1) Create a Python environment (recommended Python 3.10 or 3.11), then install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+2) Prepare the dataset into `data/` and generate `class_names.json`:
+
+```bash
+python setup_from_archive.py --archive "C:\Users\asus\Downloads\archive" --target data
+```
+
+Use `--dry-run` to preview actions:
+
+```bash
+python setup_from_archive.py --dry-run
+```
+
+3) (Optional) Train the model:
+
+```bash
+python train.py
+```
+
+This will save the best model to `Best_Cattle_Breed.h5` and class names to `class_names.json`.
+
+4) Run prediction on an image (CLI):
+
+```bash
+python predict.py --image path/to/image.jpg
+```
+
+Show top-3 predictions with confidences:
+
+```bash
+python predict.py -i path/to/image.jpg -k 3
+```
+
+Advanced options:
+
+```bash
+python predict.py --image img.jpg --model Best_Cattle_Breed.h5 --class-names class_names.json --topk 5
+```
+
+## 🌐 Streamlit Web App (Improved Frontend)
+
+Launch a simple web UI for uploading images and viewing top‑K predictions:
+
+```bash
+streamlit run app.py
+```
+
+Sidebar lets you pick the model and class names files. Upload a `.jpg/.jpeg/.png` to see predictions and a confidence bar chart.
+
+## 📂 Project Structure
+
+- `setup_from_archive.py`: Discover/copy dataset from an archive into `data/` and generate `class_names.json` (now with CLI arguments and `--dry-run`).
+- `train.py`: Train EfficientNetV2B0 classifier on images in `data/` (224×224).
+- `predict.py`: Simple CLI inference tool to get top‑K breed predictions for a single image.
+- `app.py`: Streamlit web app for an improved frontend experience.
+- `Best_Cattle_Breed.h5`: Trained model checkpoint (created by training).
+- `class_names.json`: Class label list corresponding to training order.
+- `data/`: Image dataset laid out as one folder per class.
+- `requirements.txt`: Pinned dependencies for reproducible setup.
+
+## 🛠 Notes
+
+- Input size expected by the model is 224×224 RGB and uses EfficientNetV2 preprocessing, which `predict.py` applies automatically.
+- If you already have `data/`, you can regenerate `class_names.json` by running the setup script again pointing `--target` to your data folder.

@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+*.egg-info/
+
+# Environments
+.env
+.venv/
+venv/
+ENV/
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ML / Data
+data/
+*.h5
+*.hdf5
+*.ckpt*
+*.pb
+*.pbtxt
+
+# Streamlit
+.streamlit/
+
+# Logs
+logs/
+*.log
+
+

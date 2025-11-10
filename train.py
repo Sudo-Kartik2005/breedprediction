@@ -38,6 +38,12 @@ CLASS_NAMES = np.array(train_ds.class_names)
 NUM_CLASSES = len(CLASS_NAMES)
 print(f"Detected {NUM_CLASSES} classes: {CLASS_NAMES}")
 
+# Save class names to a file for use in prediction
+import json
+with open('class_names.json', 'w') as f:
+    json.dump(CLASS_NAMES.tolist(), f)
+print(f"✅ Class names saved to 'class_names.json'")
+
 # Improve I/O performance
 AUTOTUNE = tf.data.AUTOTUNE
 train_ds = train_ds.prefetch(buffer_size=AUTOTUNE)
