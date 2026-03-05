@@ -4,15 +4,16 @@ Process multiple cattle images at once and generate reports
 """
 
 import json
-import pandas as pd
 from pathlib import Path
 from typing import List, Dict, Tuple
+
 import numpy as np
 import tensorflow as tf
 from keras_compat import keras
 from PIL import Image
 from tqdm import tqdm
 import warnings
+
 warnings.filterwarnings("ignore")
 
 class BatchProcessor:
@@ -145,8 +146,8 @@ class BatchProcessor:
         print(f"Found {len(image_paths)} images to process")
         return self.predict_batch(image_paths, top_k=top_k)
     
-    def generate_report(self, results: List[Dict], output_path: Path = None, 
-                       format: str = 'csv') -> pd.DataFrame:
+    def generate_report(self, results: List[Dict], output_path: Path = None,
+                       format: str = 'csv'):
         """
         Generate a summary report from batch results.
         
@@ -159,6 +160,14 @@ class BatchProcessor:
             DataFrame with results
         """
         # Flatten results for DataFrame
+        try:
+            import pandas as pd  # Local import so pandas is optional at install time
+        except ImportError as exc:
+            raise ImportError(
+                "pandas is required to generate reports. "
+                "Install pandas locally if you want CSV/Excel/JSON export."
+            ) from exc
+
         rows = []
         for result in results:
             row = {
