@@ -10,8 +10,8 @@ from keras_compat import keras
 from pathlib import Path
 from typing import List, Tuple, Dict
 from PIL import Image
-from sklearn.metrics.pairwise import cosine_similarity
 import warnings
+
 warnings.filterwarnings("ignore")
 
 class SimilaritySearch:
@@ -152,9 +152,17 @@ class SimilaritySearch:
         # Extract features from query image
         query_features = self.extract_features(query_image_path)
         query_features = query_features.reshape(1, -1)
-        
-        # Calculate similarities
-        similarities = cosine_similarity(query_features, self.feature_database)[0]
+
+        # Calculate cosine similarities manually (to avoid scikit-learn dependency)
+        # similarities = (q · db) / (||q|| * ||db||)
+        db_feats = self.feature_database
+        q = query_features[0]
+        # Dot products between query and all database vectors
+        dots = db_feats @ q
+        # Norms
+        q_norm = np.linalg.norm(q) + 1e-8
+        db_norms = np.linalg.norm(db_feats, axis=1) + 1e-8
+        similarities = dots / (q_norm * db_norms)
         
         # Get top-k most similar
         top_indices = similarities.argsort()[-top_k:][::-1]
